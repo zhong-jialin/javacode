@@ -89,6 +89,28 @@ sout(p2.age)
         System.out.println(b.age);
     }
   ```
-
+## 成员方法
+在某些情况下，我们要需要定义成员方法，比如人类：除了有一些特定的属性外，还有一些行为比如：说话、跑步、通过学习..、做计算题等。这时候需要用成员方法才能完成。现在要求对Person类完善。
+ * 成员方法快速入门   
+  1. 添加speak成员方法，输入我是人。
+```
+public class Method1 {
+    public static void main(String[] args) {
+        Person p1 = new Person();
+        p1.speak();
+    }
+}
+class Person{
+    String name;
+    int age;
+    //1. public 公开方法  void方法没有返回值 speak方法名 （）里面为空：没有传入的参数
+    public void speak(){
+        System.out.println("我是人");
+    }
+}
+```
+  2. 添加cal01成员方法，计算出1+..+1000的结果。
+  3. 添加cal02成员方法，接受一个n 计算从1-n的和。
+  4. 添加getSum成员方法，计算两个数的和。
 
 
