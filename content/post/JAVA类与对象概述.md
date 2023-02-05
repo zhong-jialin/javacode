@@ -25,6 +25,8 @@ categories: [
   public class 对象创建及使用 {
     public static void main(String[] args) {
         //类实例化一只猫对象
+        //cat1对象名  
+        //new Cat()创建的空间是真正的对象
         Cat cat1 = new Cat();
         cat1.name = "小白";
         cat1.age = 3;
@@ -38,6 +40,7 @@ categories: [
 }
 //创建类
 class Cat {
+  //属性
     String name;
     int age;
     String color;
@@ -54,6 +57,12 @@ class Cat {
 ## 属性/成员变量
 1. 从概念或叫法上看： 成员变量 = 属性 = field(字段) (即 成员变量是用来表示属性的)
 2. 属性是类的一个组成部分,一般是基本数据类型,也可以是引用类型(对象，数组)，在上一个案例中猫类的 int age 就是属性。
+3. 属性的定义语法同变量：访问修饰符 属性类型 属性名
+   public proctected 默认 private
+4. 属性的定义类型可以为任意类型，包含基本类型或引用类型
+5. 属性如果不赋值，有默认值，规则和数组一致。
+
+## 类和对象
 
 
 
