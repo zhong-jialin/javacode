@@ -63,7 +63,32 @@ class Cat {
 5. 属性如果不赋值，有默认值，规则和数组一致。
 
 ## 类和对象
-
+ * 类和对象的内存分配机制*
+  ```
+Person p1 = new Person();
+p1.age=10;
+p1.name = "13";
+Person p2 = p1;
+sout(p2.age)
+问：p2.age = ? 及画出内存图。
+  ```
+![图片](https://img-blog.csdnimg.cn/d9d0d2b12e1448229475584d9839314a.png "对象内存图")
+ * 2
+  ```
+    public static void main(String[] args) {
+        Person a = new Person();
+        a.age = 10;
+        a.name = "110";
+        Person b;
+        b = a;
+        System.out.println(b.name);
+        b.age = 200;
+        b = null;
+        //b = null 时 b失去对象，无法获取a的对象属性 就会出错
+        System.out.println(a.age);
+        System.out.println(b.age);
+    }
+  ```
 
 
 
