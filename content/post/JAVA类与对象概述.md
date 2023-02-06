@@ -155,9 +155,9 @@ class Person{
             System.out.println(" ");
         }
     }
+ ```
+* 跨类方法调用
 ```
-  * 跨类方法调用
-  ```
   public class MethodDetail01 {
     public static void main(String[] args) {
         a a = new a();a.sayOk();a.m1();}}
