@@ -93,11 +93,18 @@ sout(p2.age)
 在某些情况下，我们要需要定义成员方法，比如人类：除了有一些特定的属性外，还有一些行为比如：说话、跑步、通过学习..、做计算题等。这时候需要用成员方法才能完成。现在要求对Person类完善。
  * 成员方法快速入门   
   1. 添加speak成员方法，输入我是人。
+  2. 添加cal01成员方法，计算出1+..+1000的结果。
+  3. 添加cal02成员方法，接受一个n 计算从1-n的和。
+  4. 添加getSum成员方法，计算两个数的和。
 ```
 public class Method1 {
     public static void main(String[] args) {
         Person p1 = new Person();
         p1.speak();
+        p1.cal01();
+        p1.cal02(10);
+        int returnsum = p1.getSum(10,20);
+        System.out.println(returnsum);
     }
 }
 class Person{
@@ -107,10 +114,62 @@ class Person{
     public void speak(){
         System.out.println("我是人");
     }
+    public void cal01(){
+        int res = 0;
+        for (int i = 1; i <= 1000; i++) {
+            res +=i;
+        }
+        System.out.println(res);
+    }
+    public void cal02(int n){
+        int res = 0;
+        for (int i = 1; i <= n ; i++) {
+            res += i;
+        }
+        System.out.println(res);
+    }
+    public int getSum(int a,int b){
+        int sum = a+b;
+        return sum;
+    }
 }
 ```
-  2. 添加cal01成员方法，计算出1+..+1000的结果。
-  3. 添加cal02成员方法，接受一个n 计算从1-n的和。
-  4. 添加getSum成员方法，计算两个数的和。
 
+* 方法调用机制原理（cal02）
+  ![原理](https://img-blog.csdnimg.cn/ab53e0b014f64b788ae19e338036df46.png "方法调用机制原理（cal02）")
 
+* 用成员方法遍历一个数组，输出数组的元素值。
+```
+      public static void main(String[] args) {
+        int[][] map = {{0,1,2},{3,4,5},{6,7,8}};
+        method m1 = new method();
+        m1.traverse(map);
+    }
+
+    class method{
+      public void traverse(int[][] map){
+        for (int[] ints : map) {
+            for (int anInt : ints) {
+                System.out.print(anInt + "\t");
+            }
+            System.out.println(" ");
+        }
+    }
+```
+  * 跨类方法调用
+  ```
+  public class MethodDetail01 {
+    public static void main(String[] args) {
+        a a = new a();a.sayOk();a.m1();}}
+class a{
+    public void print(int n){
+        System.out.println("print use"+ n);}
+    public void sayOk(){
+        print(10);System.out.println("sayOk use");}
+    //跨类调用方法
+    public void m1(){b b = new b();b.hi();}
+}
+class b{
+    public void hi(){System.out.println("b 类调用");}
+}
+```
