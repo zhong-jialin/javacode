@@ -170,6 +170,6 @@ class a{
     public void m1(){b b = new b();b.hi();}
 }
 class b{
-    public void hi(){System.out.println("b 类调用1");}
+    public void hi(){System.out.println("b 类调用12");}
 }
 ```
