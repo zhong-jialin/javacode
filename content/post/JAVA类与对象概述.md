@@ -173,3 +173,22 @@ class b{
     public void hi(){System.out.println("b 类调用12");}
 }
 ```
+* 成员方法穿参机制    
+  1. 基本数据类型的传参机制
+```public class 基本数据传参机制 {
+    public static void main(String[] args) {
+        swap sw = new swap();
+        int a = 10;
+        int b = 20;
+        sw.swap1(a,b);
+        System.out.println("a=" + a + "; b=" + b);
+    }
+  class swap{
+    public void swap1(int a,int b){
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+  }
+  ```
+  
