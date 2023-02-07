@@ -174,7 +174,7 @@ class b{
 }
 ```
 * 成员方法穿参机制    
-  1. 基本数据类型的传参机制
+1. 基本数据类型的传参机制
 ```public class 基本数据传参机制 {
     public static void main(String[] args) {
         swap sw = new swap();
@@ -202,4 +202,34 @@ class b{
     }
   }
   ```
+  2. 成员方法返回类型是引用数据类型
+  * 编写一个方法，可以复制一个Persion对象,返回复制的对象.克隆对象，要求得到的对象和原来的对象是两个独立的对象，只是他们属性相同。
+    ```
+        public class CloneMethod {
+          public static void main(String[] args) {
+              Person p = new Person();
+              p.name = "11";
+              p.age = 1;
+              MyTools  tools = new MyTools();
+              Person p2 = tools.copyPerson(p);
+              System.out.println(p.name+ "-"+ p.age);
+              System.out.println(p2.name+ "-"+ p2.age);
+
+          }
+      }
+      class methods{
+          String name;
+          int age;
+      }
+      class  MyTools{
+          public Person copyPerson(Person p){
+            Person p2 = new Person();
+            p2.name = p.name;
+            p2.age = p.age;
+              return p2;
+          }
+      }
+    ```
+* 方法递归调用
+
   
