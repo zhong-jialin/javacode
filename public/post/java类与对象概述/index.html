@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>JAVA类与对象概述 - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="钟" /><meta name="description" content="面向对象编程（基础部分） 类与对象 成员方法 成员方法传参机制 重载（overload） 可变参数 作用域 构造器 this指向 类与对象案例 有两只猫，{&amp;l" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/java%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E6%A6%82%E8%BF%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.scss" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="JAVA类与对象概述" />
+<meta property="og:description" content="面向对象编程（基础部分） 类与对象 成员方法 成员方法传参机制 重载（overload） 可变参数 作用域 构造器 this指向 类与对象案例 有两只猫，{&l" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/post/java%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E6%A6%82%E8%BF%B0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-02-02T19:30:43+08:00" />
+<meta property="article:modified_time" content="2023-02-02T19:30:43+08:00" />
+<meta itemprop="name" content="JAVA类与对象概述">
+<meta itemprop="description" content="面向对象编程（基础部分） 类与对象 成员方法 成员方法传参机制 重载（overload） 可变参数 作用域 构造器 this指向 类与对象案例 有两只猫，{&l"><meta itemprop="datePublished" content="2023-02-02T19:30:43+08:00" />
+<meta itemprop="dateModified" content="2023-02-02T19:30:43+08:00" />
+<meta itemprop="wordCount" content="1653">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JAVA类与对象概述"/>
+<meta name="twitter:description" content="面向对象编程（基础部分） 类与对象 成员方法 成员方法传参机制 重载（overload） 可变参数 作用域 构造器 this指向 类与对象案例 有两只猫，{&l"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">钟</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">钟</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">JAVA类与对象概述</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-02-02 </span>
+        <div class="post-category">
+            <a href="/categories/java/"> Java </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#面向对象编程基础部分">面向对象编程（基础部分）</a>
+      <ul>
+        <li><a href="#类与对象案例">类与对象案例</a></li>
+        <li><a href="#属性成员变量">属性/成员变量</a></li>
+        <li><a href="#类和对象">类和对象</a></li>
+        <li><a href="#成员方法">成员方法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="面向对象编程基础部分">面向对象编程（基础部分）</h1>
+<ul>
+<li>类与对象</li>
+<li>成员方法</li>
+<li>成员方法传参机制</li>
+<li>重载（overload）</li>
+<li>可变参数</li>
+<li>作用域</li>
+<li>构造器</li>
+<li>this指向</li>
+</ul>
+<h2 id="类与对象案例">类与对象案例</h2>
+<ul>
+<li>有两只猫，{&lsquo;小白&rsquo;,&lsquo;3岁&rsquo;,&lsquo;白色&rsquo;}{&lsquo;小花&rsquo;,&lsquo;100岁&rsquo;,&lsquo;花色&rsquo;}，用户输入小猫名字显示信息，输入错误则显示没有这只猫。</li>
+<li>案例中类与对象的关系示意图 <br>
+<img src="https://img-blog.csdnimg.cn/1c22bba349d74979b2f57fed04ae7e6b.png" alt="类与对象关系" title="类与对象关系"></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class 对象创建及使用 {
+</span></span><span class="line"><span class="cl">  public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">      //类实例化一只猫对象
+</span></span><span class="line"><span class="cl">      //cat1对象名  
+</span></span><span class="line"><span class="cl">      //new Cat()创建的空间是真正的对象
+</span></span><span class="line"><span class="cl">      Cat cat1 = new Cat();
+</span></span><span class="line"><span class="cl">      cat1.name = &#34;小白&#34;;
+</span></span><span class="line"><span class="cl">      cat1.age = 3;
+</span></span><span class="line"><span class="cl">      cat1.color = &#34;白色&#34;;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      Cat cat2 = new Cat();
+</span></span><span class="line"><span class="cl">      cat2.name = &#34;小花&#34;;
+</span></span><span class="line"><span class="cl">      cat2.age = 100;
+</span></span><span class="line"><span class="cl">      cat2.color = &#34;花色&#34;;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">//创建类
+</span></span><span class="line"><span class="cl">class Cat {
+</span></span><span class="line"><span class="cl">//属性
+</span></span><span class="line"><span class="cl">  String name;
+</span></span><span class="line"><span class="cl">  int age;
+</span></span><span class="line"><span class="cl">  String color;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>类和对象的区别和联系</li>
+</ul>
+<ol>
+<li>类是抽象的，代表一类事物，比如人，猫类，即它是数据类型</li>
+<li>对象是具体的，实际的，代表一个具体事务，是实例</li>
+<li>类是对象的模板，对象是类的一个个体，对应一个实例</li>
+</ol>
+<ul>
+<li>对象在内存中的存在形式 <br>
+<img src="https://img-blog.csdnimg.cn/5c8ee5a1156f4002b21fdcb2f071ee2f.png" alt="图片" title="对象在内存中的存在形式"></li>
+</ul>
+<h2 id="属性成员变量">属性/成员变量</h2>
+<ol>
+<li>从概念或叫法上看： 成员变量 = 属性 = field(字段) (即 成员变量是用来表示属性的)</li>
+<li>属性是类的一个组成部分,一般是基本数据类型,也可以是引用类型(对象，数组)，在上一个案例中猫类的 int age 就是属性。</li>
+<li>属性的定义语法同变量：访问修饰符 属性类型 属性名
+public proctected 默认 private</li>
+<li>属性的定义类型可以为任意类型，包含基本类型或引用类型</li>
+<li>属性如果不赋值，有默认值，规则和数组一致。</li>
+</ol>
+<h2 id="类和对象">类和对象</h2>
+<ul>
+<li>类和对象的内存分配机制*</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Person p1 = new Person();
+</span></span><span class="line"><span class="cl">p1.age=10;
+</span></span><span class="line"><span class="cl">p1.name = &#34;13&#34;;
+</span></span><span class="line"><span class="cl">Person p2 = p1;
+</span></span><span class="line"><span class="cl">sout(p2.age)
+</span></span><span class="line"><span class="cl">问：p2.age = ? 及画出内存图。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://img-blog.csdnimg.cn/d9d0d2b12e1448229475584d9839314a.png" alt="图片" title="对象内存图"></p>
+<ul>
+<li>2</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">      Person a = new Person();
+</span></span><span class="line"><span class="cl">      a.age = 10;
+</span></span><span class="line"><span class="cl">      a.name = &#34;110&#34;;
+</span></span><span class="line"><span class="cl">      Person b;
+</span></span><span class="line"><span class="cl">      b = a;
+</span></span><span class="line"><span class="cl">      System.out.println(b.name);
+</span></span><span class="line"><span class="cl">      b.age = 200;
+</span></span><span class="line"><span class="cl">      b = null;
+</span></span><span class="line"><span class="cl">      //b = null 时 b失去对象，无法获取a的对象属性 就会出错
+</span></span><span class="line"><span class="cl">      System.out.println(a.age);
+</span></span><span class="line"><span class="cl">      System.out.println(b.age);
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="成员方法">成员方法</h2>
+<p>在某些情况下，我们要需要定义成员方法，比如人类：除了有一些特定的属性外，还有一些行为比如：说话、跑步、通过学习..、做计算题等。这时候需要用成员方法才能完成。现在要求对Person类完善。</p>
+<ul>
+<li>成员方法快速入门</li>
+</ul>
+<ol>
+<li>添加speak成员方法，输入我是人。</li>
+<li>添加cal01成员方法，计算出1+..+1000的结果。</li>
+<li>添加cal02成员方法，接受一个n 计算从1-n的和。</li>
+<li>添加getSum成员方法，计算两个数的和。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class Method1 {
+</span></span><span class="line"><span class="cl">    public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">        Person p1 = new Person();
+</span></span><span class="line"><span class="cl">        p1.speak();
+</span></span><span class="line"><span class="cl">        p1.cal01();
+</span></span><span class="line"><span class="cl">        p1.cal02(10);
+</span></span><span class="line"><span class="cl">        int returnsum = p1.getSum(10,20);
+</span></span><span class="line"><span class="cl">        System.out.println(returnsum);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">class Person{
+</span></span><span class="line"><span class="cl">    String name;
+</span></span><span class="line"><span class="cl">    int age;
+</span></span><span class="line"><span class="cl">    //1. public 公开方法  void方法没有返回值 speak方法名 （）里面为空：没有传入的参数
+</span></span><span class="line"><span class="cl">    public void speak(){
+</span></span><span class="line"><span class="cl">        System.out.println(&#34;我是人&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    public void cal01(){
+</span></span><span class="line"><span class="cl">        int res = 0;
+</span></span><span class="line"><span class="cl">        for (int i = 1; i &lt;= 1000; i++) {
+</span></span><span class="line"><span class="cl">            res +=i;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">        System.out.println(res);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    public void cal02(int n){
+</span></span><span class="line"><span class="cl">        int res = 0;
+</span></span><span class="line"><span class="cl">        for (int i = 1; i &lt;= n ; i++) {
+</span></span><span class="line"><span class="cl">            res += i;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">        System.out.println(res);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    public int getSum(int a,int b){
+</span></span><span class="line"><span class="cl">        int sum = a+b;
+</span></span><span class="line"><span class="cl">        return sum;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>方法调用机制原理（cal02）
+<img src="https://img-blog.csdnimg.cn/ab53e0b014f64b788ae19e338036df46.png" alt="原理" title="方法调用机制原理（cal02）"></p>
+</li>
+<li>
+<p>用成员方法遍历一个数组，输出数组的元素值。</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">      public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">        int[][] map = {{0,1,2},{3,4,5},{6,7,8}};
+</span></span><span class="line"><span class="cl">        method m1 = new method();
+</span></span><span class="line"><span class="cl">        m1.traverse(map);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    class method{
+</span></span><span class="line"><span class="cl">      public void traverse(int[][] map){
+</span></span><span class="line"><span class="cl">        for (int[] ints : map) {
+</span></span><span class="line"><span class="cl">            for (int anInt : ints) {
+</span></span><span class="line"><span class="cl">                System.out.print(anInt + &#34;\t&#34;);
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">            System.out.println(&#34; &#34;);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>跨类方法调用</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  public class MethodDetail01 {
+</span></span><span class="line"><span class="cl">    public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">        a a = new a();a.sayOk();a.m1();}}
+</span></span><span class="line"><span class="cl">class a{
+</span></span><span class="line"><span class="cl">    public void print(int n){
+</span></span><span class="line"><span class="cl">        System.out.println(&#34;print use&#34;+ n);}
+</span></span><span class="line"><span class="cl">    public void sayOk(){
+</span></span><span class="line"><span class="cl">        print(10);System.out.println(&#34;sayOk use&#34;);}
+</span></span><span class="line"><span class="cl">    //跨类调用方法
+</span></span><span class="line"><span class="cl">    public void m1(){b b = new b();b.hi();}
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">class b{
+</span></span><span class="line"><span class="cl">    public void hi(){System.out.println(&#34;b 类调用12&#34;);}
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>成员方法穿参机制</li>
+</ul>
+<ol>
+<li>基本数据类型的传参机制</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">        swap sw = new swap();
+</span></span><span class="line"><span class="cl">        int a = 10;
+</span></span><span class="line"><span class="cl">        int b = 20;
+</span></span><span class="line"><span class="cl">        //值传递
+</span></span><span class="line"><span class="cl">        sw.swap1(a,b);
+</span></span><span class="line"><span class="cl">        System.out.println(&#34;a=&#34; + a + &#34;; b=&#34; + b);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        //地址传递
+</span></span><span class="line"><span class="cl">        int[] arr = {1,3,4};
+</span></span><span class="line"><span class="cl">        sw.adress(arr);
+</span></span><span class="line"><span class="cl">        System.out.println(arr[0]);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  class swap{
+</span></span><span class="line"><span class="cl">    public void swap1(int a,int b){
+</span></span><span class="line"><span class="cl">        int temp = a;
+</span></span><span class="line"><span class="cl">        a = b;
+</span></span><span class="line"><span class="cl">        b = temp;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">        public void adress(int[] arr){
+</span></span><span class="line"><span class="cl">        arr[0] = 200;
+</span></span><span class="line"><span class="cl">        System.out.println(arr[0]);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>成员方法返回类型是引用数据类型</li>
+</ol>
+<ul>
+<li>编写一个方法，可以复制一个Persion对象,返回复制的对象.克隆对象，要求得到的对象和原来的对象是两个独立的对象，只是他们属性相同。
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    public class CloneMethod {
+</span></span><span class="line"><span class="cl">      public static void main(String[] args) {
+</span></span><span class="line"><span class="cl">          Person p = new Person();
+</span></span><span class="line"><span class="cl">          p.name = &#34;11&#34;;
+</span></span><span class="line"><span class="cl">          p.age = 1;
+</span></span><span class="line"><span class="cl">          MyTools  tools = new MyTools();
+</span></span><span class="line"><span class="cl">          Person p2 = tools.copyPerson(p);
+</span></span><span class="line"><span class="cl">          System.out.println(p.name+ &#34;-&#34;+ p.age);
+</span></span><span class="line"><span class="cl">          System.out.println(p2.name+ &#34;-&#34;+ p2.age);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">  class methods{
+</span></span><span class="line"><span class="cl">      String name;
+</span></span><span class="line"><span class="cl">      int age;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">  class  MyTools{
+</span></span><span class="line"><span class="cl">      public Person copyPerson(Person p){
+</span></span><span class="line"><span class="cl">        Person p2 = new Person();
+</span></span><span class="line"><span class="cl">        p2.name = p.name;
+</span></span><span class="line"><span class="cl">        p2.age = p.age;
+</span></span><span class="line"><span class="cl">          return p2;
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">钟</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-02-02
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E6%96%B9%E6%B3%95%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A1%88%E4%BE%8B/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">方法递归调用案例</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B/">
+            <span class="next-text nav-default">二维数组应用案例</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://github.com/zhong-jialin" class="iconfont icon-github" title="github"></a>
+      <a href="https://space.bilibili.com/40426880?spm_id_from=333.1007.0.0" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>钟</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
