@@ -10,7 +10,7 @@ categories: [
 2. 语句中有引用JS要用{}包起来
 3. 样式指定的类名要用className
 4. 内联样式要用 style:{{color:'white'}}
-5. 单标签要闭合 <input type = 'text'\>
+5. 单标签要闭合 '< input type = 'text'\>'
 6. 自定义标签首字母要大写
 7. 根标签只有一个
 
