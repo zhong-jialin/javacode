@@ -36,7 +36,7 @@ categories: [
 </script>
 </html>
 ```
-## 用jsx语法循环一个数组
+### 用jsx语法循环一个数组
 ```
 <script type="text/babel">
   const title = '循环'
@@ -57,4 +57,35 @@ categories: [
   //渲染虚拟dom到页面
   ReactDOM.render(VDOM,document.getElementById('test'))
 </script>
+```
+### 创建自定义函数式组件
+```
+<div id="test"></div>
+</body>
+<script type="text/babel">
+  //定义组件
+  function  Demo(){
+    return <h2>自定1义组件</h2>
+  }
+  //渲染虚拟dom到页面
+  ReactDOM.render(<Demo/>,document.getElementById('test'))
+</script>
+</html>
+```
+### 创建类式组件
+```
+<div id="test"></div>
+</body>
+<script type="text/babel">
+    //定义组件
+    class Mycomponent extends React.Component(){
+        render(){
+            console.log(this)
+            return <h2>自定1义组件</h2>
+        }
+    }
+    //渲染虚拟dom到页面
+    ReactDOM.render(<Mycomponent/>,document.getElementById('test'))
+</script>
+</html>
 ```
