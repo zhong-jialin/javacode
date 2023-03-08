@@ -78,10 +78,9 @@ categories: [
 </body>
 <script type="text/babel">
     //定义组件
-    class Mycomponent extends React.Component(){
-        render(){
-            console.log(this)
-            return <h2>自定1义组件</h2>
+    class Welcome extends React.Component {
+        render() {
+            return <h1>Hello, {this.props.name}</h1>;
         }
     }
     //渲染虚拟dom到页面
@@ -89,3 +88,35 @@ categories: [
 </script>
 </html>
 ```
+### 组件的state状态 绑定点击按钮
+```
+<script type="text/babel">
+    //定义组件
+    class Welcome extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {isHot:false}
+            //onclick 穿this过来重新绑定this
+            this.chamgeweather = this.chamgeweather.bind(this)
+        }
+        chamgeweather(){
+            //chamgeweather 的实例原型是welcome this只想Welcome
+            //由于chamgeweather是由onclick调用，所以不能直接调用，会返回undefine
+
+            //更改属性不能直接更改 例如
+            // const isHot = this.state.isHot
+            // this.state.isHot = ! isHot
+            const isHot = this.state.isHot
+            //这是一种合并动作
+            this.setState({isHot:!isHot})
+        }
+        render() {
+            return <h1 onClick={this.chamgeweather}>Hello{this.state.isHot?"1":"0"}</h1>;
+        }
+    }  //渲染虚拟dom到页面
+    ReactDOM.render(<Welcome/>,document.getElementById('test'))
+    //构造器只调用一次
+
+</script>
+```
+### 简化上面的state
