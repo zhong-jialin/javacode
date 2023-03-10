@@ -93,6 +93,7 @@ categories: [
 <script type="text/babel">
     //定义组件
     class Welcome extends React.Component {
+       //方法初始化尽量不要在构造器里面
         constructor(props) {
             super(props);
             this.state = {isHot:false}
@@ -120,3 +121,28 @@ categories: [
 </script>
 ```
 ### 简化上面的state
+```
+<script type="text/babel">
+  //定义组件
+  class Welcome extends React.Component {
+    //方法初始化尽量不要在构造器里面
+    constructor(props) {
+      super(props);
+    }
+    state = {isHot:false,states:'wind'}
+    render() {
+      //接受两个属性
+      const {isHot,states} = this.state
+      //方法在welcome实例中 要使用this指向函数方法
+      return <h1 onClick={this.chamgeweather}>Hello{isHot?"1":"0"},{states}</h1>;
+    }
+    //静态变量
+    chamgeweather = ()=>{
+      const isHot = this.state.isHot
+      this.setState({isHot:!isHot})
+    }
+  }  //渲染虚拟dom到页面
+  ReactDOM.render(<Welcome/>,document.getElementById('test'))
+
+</script>
+```
