@@ -146,3 +146,45 @@ categories: [
 
 </script>
 ```
+## props 传值 定义规则 需要引入props规则链接
+```
+<script type="text/babel">
+  //定义组件
+  class Person extends React.Component{
+    render(){
+      console.log(this)
+      const {name,age,sex} = this.props
+      return(
+              <ul>
+                <li>名字:{name}</li>
+                <li>年龄:{age+1}</li>
+                <li>性别:{sex}</li>
+              </ul>
+      )
+    }
+  }
+  //给React加规则
+  Person.propTypes = {
+    //具体规则 只能传String类型数据
+    //isRequired 必须传值不然会报错
+    name: PropTypes.string,
+    sex:PropTypes.string,
+    age:PropTypes.number,
+    speak:PropTypes.func
+
+  }
+  Person.defaultProps = {
+    sex:'手扶拖拉机',
+    age:99
+  }
+  //渲染虚拟dom到页面
+  const p = {name:'laoliu', age : 19}
+  const p2 = {name:'laoliu', sex:'白天男人，晚上女人'}
+  ReactDOM.render(<Person {...p}/>,document.getElementById('test'))
+  ReactDOM.render(<Person {...p2}/>,document.getElementById('test3'))
+  //渲染时传值
+  ReactDOM.render(<Person name ='nvmao'  speed="1" age={19} sex="man"/>,document.getElementById('test2'))
+</script>
+```
+### 简写props传值
+1
