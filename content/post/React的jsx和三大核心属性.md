@@ -187,4 +187,34 @@ categories: [
 </script>
 ```
 ### 简写props传值
-1
+```
+  class Person extends React.Component{
+    //给React加规则
+    //前面要加 static 不然会报错
+    static propTypes = {
+      //具体规则 只能传String类型数据
+      //isRequired 必须传值不然会报错
+      name: PropTypes.string,
+      sex:PropTypes.string,
+      age:PropTypes.number,
+      speak:PropTypes.func
+
+    }
+    //默认值
+    static defaultProps = {
+      sex:'手扶拖拉机',
+      age:99
+    }
+    render(){
+      console.log(this)
+      const {name,age,sex} = this.props
+      return(
+              <ul>
+                <li>名字:{name}</li>
+                <li>年龄:{age+1}</li>
+                <li>性别:{sex}</li>
+              </ul>
+      )
+    }
+  }
+```
