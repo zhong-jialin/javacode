@@ -218,4 +218,35 @@ categories: [
     }
   }
 ```
-#### props
+#### 函数式组件只能使用props
+```
+<script type="text/babel">
+    //定义组件
+    function Person(props) {
+        const {name, age, sex} = props
+        return (
+            <ul>
+                <li>名字:{name}</li>
+                <li>年龄:{age + 1}</li>
+                <li>性别:{sex}</li>
+            </ul>
+        )
+    }
+    Person.propTypes = {
+        //具体规则 只能传String类型数据
+        //isRequired 必须传值不然会报错
+        name: PropTypes.string,
+        sex:PropTypes.string,
+        age:PropTypes.number,
+        speak:PropTypes.func
+
+    }
+    //默认值
+    Person.defaultProps = {
+        sex:'手扶拖拉机',
+        age:99
+    }
+    //渲染时传值
+    ReactDOM.render(<Person name='nvmao'/>, document.getElementById('test2'))
+</script>
+```
