@@ -38,3 +38,37 @@ class Test{
 3. 访问成员的语法：this.方法名
 4. 访问构造器语法：只能在构造器内部使用
 5. 不能在类定义类的外部使用，只能在类定义的方法中使用
+   
+##### 访问成员的语法：this.方法名
+```
+public class 访问成员语法 {
+    public static void main(String[] args) {
+        T t1 = new T();
+        t1.f2();
+    }
+}
+class T{
+    private String name = "niub";
+    private int age;
+    public T(){
+        //在一个构造器中访问另一个构造器 必须放在第一行
+        this("niui",18);
+        System.out.println("T 构造器");
+    }
+    public T(String name,int age){
+        System.out.println("T(canshu) 构造器");
+    }
+    public void f1(){
+        String name =  "list";
+        //在方法中不使用this默认使用最近的值
+        System.out.println("normle"+ name);
+        System.out.println("this name"+ this.name);
+    }
+    public void f2(){
+        //第一种方法
+        f1();
+        //第二种方法
+        this.f1();
+    }
+}
+```
