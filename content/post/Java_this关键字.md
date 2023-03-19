@@ -122,7 +122,54 @@ class A01{
 ```
 3. 定义方法find，实现查找某字符串数组中的元素查找，并返回索引，如果找不到返回-1
 ```
+public class FindArray {
+    public static void main(String[] args) {
+        String[] fstr = {"ff","gg","ee"};
+        findf find = new findf();
+
+        System.out.println("index = " + find.find("ee",fstr));
+    }
+}
+class findf{
+    public int find(String n,String[] arr){
+        for (int i = 0; i < arr.length; i++) {
+            if (n.equals(arr[i])){
+                return i;
+            }
+        }
+        return -1;
+    }
+}
 
 ```
 
 4. 编写book，定义方法updatePrice，实现更改某本书的价格，如果价格>150，则改为150，如果价格>100,更改为100，否则不变。
+```
+public class bookUpPrice {
+    public static void main(String[] args) {
+        book bo = new book();
+        bo.book("niubi",151);
+        bo.info();
+        bo.updatePrice();
+        bo.info();
+    }
+}
+class book{
+    String name;
+    double price;
+    public void book(String name,double price){
+        this.name = name;
+        this.price = price;
+    }
+    public void updatePrice(){
+        if (price>150){
+            price = 150;
+        }else if (price>100){
+            price = 100;
+        }
+    }
+    public void info(){
+        System.out.println("书名1" + name + "价格" + price);
+    }
+}
+```
