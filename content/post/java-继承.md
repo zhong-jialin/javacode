@@ -64,8 +64,11 @@ public class fu {
     public int returnn4(){
         return n4;
     }
-    public fu(){
-        System.out.println("base");
+//    public fu(){
+//        System.out.println("fu()");
+//    }
+    public fu(String name,int age){
+        System.out.println("fu(String name,int age)");
     }
     public void test100(){
         System.out.println("test100");
@@ -86,7 +89,10 @@ public class fu {
 
 // son lei
 public class son extends fu{
+  //当父类没有无参的构造器要手动调用super调用父类的构造器
+  //指定使用父类的那个构造器完成对父类的初始化工作
     public son(){
+        super("tom",18);
         System.out.println("son");
     }
     public void saook(){
