@@ -53,6 +53,51 @@ public class son extends fu {
 * 继承的深入讨论
 1. 子类继承的父类所有的方法和属性，但是父类的私有属性和方法子类无法访问，需要公共的方法访问。
 ```
+// fu lei
+package 继承Demo2;
+
+public class fu {
+    public int n1 = 100;
+    protected  int n2 = 200;
+    int n3 = 300;
+    private int n4 = 400;
+    public int returnn4(){
+        return n4;
+    }
+    public fu(){
+        System.out.println("base");
+    }
+    public void test100(){
+        System.out.println("test100");
+    }
+    protected void test200(){
+        System.out.println("test200");
+    }
+    void test300(){
+        System.out.println("test300");
+    }
+    private void  test400(){
+        System.out.println("test400");
+    }
+    public void calltest400(){
+        test400();
+    }
+}
+
+// son lei
+public class son extends fu{
+    public son(){
+        System.out.println("son");
+    }
+    public void saook(){
+        System.out.println(n1 + n2 + n3);
+        test100();
+        test200();
+        test300();
+        System.out.println(returnn4());
+        calltest400();
+    }
+}
 
 ```
 
