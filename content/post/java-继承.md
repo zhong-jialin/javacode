@@ -111,3 +111,96 @@ public class son extends fu{
 4. super使用时，要在放在构造器第一行
 5. super() 和 this() 都是放在构造器第一行，但是两个方法不能同时出现。
 6. 子类最多只能继承一个父类。
+   
+### 继承的本质分析
+* 子类创建的内存布局
+![内存](https://img-blog.csdnimg.cn/f631c64da9904edf809a442528038986.png "继承内存")   
+#### 练习
+1. 1
+```
+class  a{
+    a(){
+        a sout("a");
+        a(String name){
+            sout("a name)
+        }
+    }
+}
+class b extends a{
+    b(){
+        this("abc");
+        sout("b");
+    }
+    b(String name){
+        sout("b name");
+    }
+}
+b b = new b(); 会输出什么
+a,b name,b
+```
+2. 2
+![](https://img-blog.csdnimg.cn/37656236ae894068a4b90f0a00bd590c.png "")
+
+3. 编写computer类，包含cpu,内存 硬盘,getDetails方法用于返回Cumputer的详细信息。
+   编写pc子类，继承computer类，添加特有属性【品牌brand】
+   编写NotePad子类，继承computer类，添加特有属性【演示color】
+   编写test类，在main方法中创建pc和notepad对象，分别给对象中特有的属性赋值，以及从computer类继承的属性赋值，并使用方法并打印输出信息。
+```
+package 继承Demo2;
+//computer 类
+public class computer {
+    private String cpu;
+    private int memory;
+    private int disk;
+    public computer(String cpu, int memory, int disk) {
+        this.cpu = cpu;
+        this.memory = memory;
+        this.disk = disk;}
+    public String getDetails(){
+        return "cpu= " + cpu + " memory= " + memory +" disk= " + disk;}
+    public String getCpu() {return cpu;}
+    public void setCpu(String cpu) {this.cpu = cpu;}
+    public int getMemory() {return memory;}
+    public void setMemory(int memory) {this.memory = memory;}
+    public int getDisk() {return disk;}
+    public void setDisk(int disk) {this.disk = disk;}
+}
+
+//pc类
+public class pc extends computer{
+    private String brand;
+    public pc(String cpu, int memory, int disk,String brand) {
+        super(cpu, memory, disk);
+        this.brand = brand;
+    }
+    public String getBrand() {return brand;}
+    public void setBrand(String brand) {this.brand = brand;}
+    public void printinfo(){
+        System.out.println("pc信息 = ");
+        System.out.println(getDetails() + "brand= " + brand);
+    }
+}
+
+// notepad 子类
+public class notepad extends computer{
+    private String color;
+    public notepad(String cpu,int memory,int disk,String color){
+        super(cpu,memory,disk);
+        this.color = color;
+    }
+    public String getcolor(){ return color;}
+    public void printcolor(){
+        System.out.println("yans = ");
+        System.out.println(getDetails() + "color=" + color);
+    }
+}
+// test
+public class Extendtest2 {
+    public static void main(String[] args) {
+        pc p = new pc("intel",16,500,"ibm");
+        color cp = new color("Amd",16,102400,"white")
+        cp.printcolor();
+        p.printinfo();
+    }
+}
+```
