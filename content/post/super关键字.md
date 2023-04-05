@@ -34,6 +34,9 @@ public class fu {
     public fu(String name,int age){
         System.out.println("fu(String name,int age)");
     }
+    public void cal(){
+        System.out.println("fu类的cal方法");
+    }
     public void test100(){
         System.out.println("test100");
     }
@@ -67,10 +70,24 @@ public class son extends fu{
         super("jack",10);
 //        super("jack");
     }
+    public void sum(){
+        System.out.println("son类方法");
+        //调用父类cal方法
+        //调用顺序是，本类，父类，父类的父类知道 object类
+        // 如果存在cal类但是是父类的private类就会返回错误，public类能够正常访问
+        cal(); //查找最近
+        super.cal(); //直接查找父类
+        this.cal(); //只查找本类
+        //在查找属性的时候和类的应用规则是一样的
+    }
 }
 ```
 
 * super的便利和使用细节
 1. 调用父类的构造器的好处，分工明确，父类属性由父类初始化，子类的属性有子类初始化
 2. 当子类中有和父类中的成员，属性，方法重名时，为了访问父类的成员，必须用过super，如果没有重名，使用super，this，直接访问是一样的效果。
+3. super的访问不限于父类，父类的父类如果有方法也会访问。super访问遵循就近原则，son》fu>fufu
+4. super和this的比较。  
+   
+![二维数组内存示意图](https://img-blog.csdnimg.cn/becb979b7dc24eff82d83bfc5ce0d44a.png "二维数组内存示意图")
 
