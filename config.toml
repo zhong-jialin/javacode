@@ -16,7 +16,7 @@ pygmentsUseClasses = true
   instagram = "zhong"
   tumblr = "zhong"
   email = "zhong@gmail.com"
-  url = "https://zhongboke.com"
+  url = "https://zhongboke.top"
   keywords = "blog, google analytics"
   rss = true
   lastmod = true
@@ -28,9 +28,9 @@ pygmentsUseClasses = true
   [params.gitalk]
     clientID = "Your client ID" # Your client ID
     clientSecret = "Your client secret" # Your client secret
-    repo = "LuvSia" # 您的博客的github地址Repository name，例如：xxxx.github.io
-    owner = "ventusoon" # 您的GitHub ID
-    admin = "ventusoon" # 您的GitHub ID
+    repo = "https://zhongboke.com" # 您的博客的github地址Repository name，例如：xxxx.github.io
+    owner = "Himeno" # 您的GitHub ID
+    admin = "Himeno" # 您的GitHub ID
     id = "location.pathname" # 文章页面的链接地址就是ID
     labels = "gitalk" # Github issue labels. If you used to use Gitment, you can change it
     perPage = 15 # Pagination size, with maximum 100.
@@ -43,7 +43,7 @@ pygmentsUseClasses = true
     href = "https://github.com/meik2333"
   [[params.links]]
     title = "Link2"
-    href = "https://meik2333.com"
+    href = "https://zhongboke.com"
     icon = "https://meik2333.com/images/avatar.png"
 
 [frontmatter]
