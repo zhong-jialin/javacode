@@ -601,6 +601,143 @@ public class ServletDemo3 extends HttpServlet {
 }
 
 ```
+### HttpServletRequest请求转发
+* 什么是请求的转发? 
+请求转发是指，服务器收到请求后，从一次资源跳转到另一个资源的操作叫请求转发.
+1. 通过request对象获取请求转发器对象：RequestDispatcher getRequestDispatcher(String path)
+2. 使用RequestDispatcher对象来进行转发：forward(ServletRequest request, ServletResponse response)
+3. 由于 forward() 方法会先清空 response 缓冲区，因此只有转发到最后一个 Web 资源时，生成的响应才会被发送到客户端。
+4. 请求转发之后，浏览器地址栏中的 URL 不会发生变化，因此浏览器不知道在服务器内部发生了转发行为，更无法得知转发的次数。
+5. 请求转发不支持跨域访问，只能跳转到当前应用中的资源。
+6. 参与请求转发的 Web 资源之间共享同一 request 对象和 response 对象。
+* 请求转发的工作原理
+![请求转发](http://c.biancheng.net/uploads/allimg/210627/11105U1R-0.png "请求转发")
+#### 实现一个转发和request域对象。
+1. 创建ServletDemo5类实现转发服务到ServletDemo6
+```
+package com.tipdm.servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+@WebServlet("/ServletDemo5")
+public class ServletDemo5 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("5555555555555");
+        //请求转发
+        //转发特点：浏览器地址不会变化 不能跨域访问，只能在当前服务器访问
+        req.setAttribute("msg","hellow");
+        //转发，服务器内部
+        req.getRequestDispatcher("/ServletDemo6").forward(req,resp);
+        //重定向 //浏览器发出请求，要加虚拟路径 //动态路径
+//        resp.sendRedirect(req.getContextPath() + "/ServletDemo6");
+
+        //转发请求
+
+    }
+}
+------------------------------------------------------
+@WebServlet("/ServletDemo6")
+public class ServeltDemo6 extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("6666666666");
+
+        ///接受由ServletDemo5转发的数据
+        Object msg = req.getAttribute("msg");
+        System.out.println(msg);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
+}
+```
+#### 从form表单获取请求值，并且吧DispatcherServlet类的信息转发给DoServlet，并输出在网页上。
+1. DispatcherServlet类和DoServlet类，复用之前的form表单
+```
+package com.tipdm.servlet.lianxi;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@WebServlet("/DispatcherServlet")
+public class DispatcherServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 设置向页面输出内容格式
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
+        // 尝试在请求转发前向response缓冲区写入内容，最后在页面查看是否展示
+        writer.write("<h1>转发在响应前的信息</h1>");
+        // 向reuqest域对象中添加属性，传递给下一个web资源
+        req.setAttribute("webName","转发信息11111");
+        //转发                      转发资源的路由名称
+        req.getRequestDispatcher("/DoServlet").forward(req,resp);
+    }
+}
+
+----------------------------------------------
+@WebServlet("/DoServlet")
+public class DoServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
+        String webName = (String) req.getAttribute("webName");
+        String url = (String) req.getAttribute("url");
+        String welcome = (String) req.getAttribute("welcome");
+        if (webName != null) {
+            writer.write("<h3>" + webName + "</h3>");
+        }
+        if (url != null) {
+            writer.write("<h3>" + url + "</h3>");
+        }
+        if (welcome != null) {
+            writer.write("<h3>" + welcome + "</h3>");
+        }
+        String username = req.getParameter("username");
+        // 获取密码
+        String password = req.getParameter("password");
+        // 获取性别
+        String sex = req.getParameter("sex");
+        // 获取城市
+        String city = req.getParameter("city");
+        // 获取使用语言返回是String数组
+        String[] languages = req.getParameterValues("language");
+        writer.write("用户名：" + username + "<br/>" + "密码：" + password + "<br/>" + "性别：" + sex + "<br/>" + "城市：" + city
+                + "<br/>" + "使用过的语言：" + Arrays.toString(languages) + "<br/>"
+        );
+
+    }
+}
+```
 
 
 
