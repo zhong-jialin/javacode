@@ -269,8 +269,39 @@ public class MyHttpsServlet extends TestServlet3{
 ```
 4. 吧request.html的提交路径改为MyHttpServlet的路由。idea控制台返回myhttpsssssssssss doget就是成功了。
 
+### HttpServletRequest接口详解
+* 一般情况下，浏览器（客户端）通过 HTTP 协议来访问服务器的资源，Servlet 主要用来处理 HTTP 请求。
+* Servlet 处理 HTTP 请求的流程如下：
+!["Servlet 处理 HTTP 请求的流程"](http://c.biancheng.net/uploads/allimg/210627/1103524464-0.png "流程图")
 
-### Servlet中通过request功能获取请求参数的功能
+1. Servlet 容器接收到来自客户端的 HTTP 请求后，容器会针对该请求分别创建一个 HttpServletRequest 对象和 HttpServletReponse 对象。
+2. 容器将 HttpServletRequest 对象和 HttpServletReponse 对象以参数的形式传入 service() 方法内，并调用该方法。
+3. 在 service() 方法中 Servlet 通过 HttpServletRequest 对象获取客户端信息以及请求的相关信息。
+4. 对 HTTP 请求进行处理。
+5. 请求处理完成后，将响应信息封装到 HttpServletReponse 对象中。
+6. Servlet 容器将响应信息返回给客户端。
+7. 当 Servlet 容器将响应信息返回给客户端后，HttpServletRequest 对象和 HttpServletReponse 对象被销毁。
+
+#### HttpServletRequest 接口
+* 在 Servlet API 中，定义了一个 HttpServletRequest 接口，它继承自 ServletRequest 接口。HttpServletRequest 对象专门用于封装 HTTP 请求消息，简称 request 对象。
+
+* HTTP 请求消息分为请求行、请求消息头和请求消息体三部分，所以 HttpServletRequest 接口中定义了获取请求行、请求头和请求消息体的相关方法。
+
+* HttpServletRequest接口定义了一系列请求行信息的方法：
+
+|  返回值类型  | 方法声明 |描述 |
+| :-------------: | :----------: | :------------: |
+|    String |   	getMethod()   | 该方法用于获取 HTTP 请求方式（如 GET、POST 等）。 |
+|    String |   	getRequestURI()   | 该方法用于获取请求行中的资源名称部分，即位于 URL 的主机和端口之后，参数部分之前的部分。 |
+|    String |   	getQueryString()   | 该方法用于获取请求行中的参数部分，也就是 URL 中“?”以后的所有内容。 |
+|    String |   	getContextPath()   | 返回当前 Servlet 所在的应用的名字（上下文）。对于默认（ROOT）上下文中的 Servlet，此方法返回空字符串""。 |
+|    String |   	getServletPath()   | 该方法用于获取 Servlet 所映射的路径。 |
+|    String |   	getRemoteAddr()   | 该方法用于获取客户端的 IP 地址。 |
+|    String |   	getRemoteHost()   | 该方法用于获取客户端的完整主机名，如果无法解析出客户机的完整主机名，则该方法将会返回客户端的 IP 地址。 |
+
+
+
+####   Servlet中通过request功能获取请求参数的功能
 1. 获取请求消息数据
 ```
 package com.tipdm.servlet;
@@ -305,6 +336,17 @@ public class ServletDemo extends HttpServlet {
         //获取客户端ip地址
         String remoteaddre = req.getRemoteAddr();
         System.out.println(remoteaddre);
+
+
+                PrintWriter writer = resp.getWriter();
+        writer.println("请求方式:" + req.getMethod() + "<br/>" +
+                "客户端的 IP 地址:" + req.getRemoteAddr() + "<br/>" +
+                "应用名字（上下文）:" + req.getContextPath() + "<br/>" +
+                "URI:" + req.getRequestURI() + "<br/>" +
+                "请求字符串:" + req.getQueryString() + "<br/>" +
+                "Servlet所映射的路径:" + req.getServletPath() + "<br/>" +
+                "客户端的完整主机名:" + req.getRemoteHost() + "<br/>"
+        );
 
     }
 }
@@ -348,7 +390,111 @@ public class ServletDemo1 extends HttpServlet {
 }
 
 ```
-3. 简单获取请求参数的方式，只能通过post请求获取
+#### 获取 form 表单的数据
+|  返回值类型  | 方法声明   |描述 |
+| :-------------: | :----------: | :------------: |
+|    String |   	getParameter(String name)   | 返回指定参数名的参数值。 |
+|    String[] |   	getParameterValues (String name)   | 以字符串数组的形式返回指定参数名的所有参数值（HTTP 请求中可以有多个相同参数名的参数）。 |
+|    Enumeration  |   	getParameterNames()   | 以枚举集合的形式返回请求中所有参数名。 |
+|    Map |   	getParameterMap()   | 	用于将请求中的所有参数名和参数值装入一个 Map 对象中返回。 |
+
+#### 获取 form 表单的数据,并显示在网页上。
+* 创建RequestParam.java文件
+```
+package com.tipdm.servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+@WebServlet("/RequestParam")
+public class RequestParam extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //通过HttpServletResponse类的response响应对象调用getWriter()方法，
+        // 返回一个PrintWriter类的对象(比如声明为out)，再使用PrintWriter对象调用该类中自带的方法进行输出
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter writer = resp.getWriter();
+        //获取内容 存储到write 再用writer自带的方法输出
+        String username = req.getParameter("username");//form 里面input的name
+        String password = req.getParameter("password");
+        String sex = req.getParameter("sex");
+        String city = req.getParameter("city");
+        //因为是有多个选项所以用字符串数组
+        String[] languages = req.getParameterValues("language");
+        writer.write("用户名：" + username + "<br/>" + "密码：" + password + "<br/>" + "性别：" + sex + "<br/>" + "城市：" + city
+                + "<br/>" + "使用过的语言：" + Arrays.toString(languages) + "<br/>");
+        //                                   因为language是字符串数组的方式所以要用Arrays数组的遍历方法输出
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
+}
+
+/// 网页提交表格
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<form action="/Servlet/RequestParam" method="get">
+    <table border="1" width="50%">
+        <tr>
+            <td colspan="2" align="center">编程帮wwww.biancheng.net</td>
+        </tr>
+        <tr>
+            <td>输入姓名</td>
+            <td><input type="text" name="username" /></td>
+        </tr>
+        <tr>
+            <td>输入密码</td>
+            <td><input type="password" name="password" /></td>
+        </tr>
+        <tr>
+            <td>选择性别</td>
+            <td><input type="radio" name="sex" value="male" />男 <input
+                    type="radio" name="sex" value="female" />女</td>
+        </tr>
+        <tr>
+            <td>选择使用的语言</td>
+            <td><input type="checkbox" name="language" value="JAVA" />JAVA
+                <input type="checkbox" name="language" value="C" />C语言 <input
+                        type="checkbox" name="language" value="PHP" />PHP <input
+                        type="checkbox" name="language" value="Python" />Python</td>
+        </tr>
+        <tr>
+            <td>选择城市</td>
+            <td><select name="city">
+                <option value="none">--请选择--</option>
+                <option value="beijing">北京</option>
+                <option value="shanghai">上海</option>
+                <option value="guangzhou">广州</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="提交" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+
+```
+* 实际网页输出界面
+![图片](https://img-blog.csdnimg.cn/2121df37834b4fc98d98a66cff781585.png "图片")
+
+
+1. 简单获取请求参数的方式，只能通过post请求获取
 ```
 public class SerletDemo2 extends HttpServlet {
     @Override
@@ -370,7 +516,7 @@ public class SerletDemo2 extends HttpServlet {
     }
 }
 ```
-4. get和post都可以获取请求参数的方式
+1. get和post都可以获取请求参数的方式
 ```
 package com.tipdm.servlet;
 
