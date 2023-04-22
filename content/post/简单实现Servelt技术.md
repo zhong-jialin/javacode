@@ -437,11 +437,15 @@ public class ServletDemo3 extends HttpServlet {
         });
 
         ///map 另一种map方式
+        //使用Map集合中的方法keySet()，把Map集合所有的key取出来，存储到一个set集合中
         Set<String> set  = parameterMap.keySet();
+        //遍历set集合，获取Map集合中的每一个key
         for (String name : set) {
             String[] values= req.getParameterValues(name);
+            //通过set方法获取请求名称
             System.out.println(name);
             for (String value : values) {
+                //通过req.getParameterValues获取请求参数
                 System.out.println(value);
             }
             System.out.println("-----------------");
