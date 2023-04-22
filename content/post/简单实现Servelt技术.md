@@ -270,5 +270,166 @@ public class MyHttpsServlet extends TestServlet3{
 4. 吧request.html的提交路径改为MyHttpServlet的路由。idea控制台返回myhttpsssssssssss doget就是成功了。
 
 
+### Servlet中通过request功能获取请求参数的功能
+1. 获取请求消息数据
+```
+package com.tipdm.servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+@WebServlet("/servletdemo")
+public class ServletDemo extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doPost(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //获取请求时方式
+        String method = req.getMethod();
+        System.out.println(method);
+        //获取虚拟目录
+        String contextPath = req.getContextPath();
+        System.out.println(contextPath);
+        //获取servlet路径
+        String servletPath = req.getServletPath();
+        System.out.println(servletPath);
+        // 获取get请求参数
+        String queryget = req.getQueryString();
+        System.out.println(queryget + "use dopost");
+        //获取客户端ip地址
+        String remoteaddre = req.getRemoteAddr();
+        System.out.println(remoteaddre);
+
+    }
+}
+
+
+```
+2. 获取浏览器请求头数据
+```
+package com.tipdm.servlet;
+
+import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Enumeration;
+@WebServlet("/ServletDemo1")
+public class ServletDemo1 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       this.doPost(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //获取请求头数据
+        String header = req.getHeader("User-Agent");
+        System.out.println(header);
+        System.out.println("===========================");
+        //获取所有请求头数据
+        Enumeration<String> headerNames = req.getHeaderNames();
+        while (headerNames.hasMoreElements()){
+                String name = headerNames.nextElement();
+                String value = req.getHeader(name);
+            System.out.println(name + "==============>" + value);
+        }
+    }
+}
+
+```
+3. get和post都可以获取请求参数的方式
+```
+package com.tipdm.servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Map;
+
+@WebServlet("/ServletDemo3")
+public class ServletDemo3 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doPost(req, resp);
+        System.out.println("get");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //get和post都可以获取请求参数的方式
+        //第一种
+        String username = req.getParameter("username");
+        System.out.println(username);
+        String password = req.getParameter("password");
+        System.out.println(password);
+        System.out.println("post");
+
+
+        System.out.println("=================================");
+
+        //第二种
+        //根据参数名称获取参数数值的数组 返回String类型数组
+        String[] hobbies = req.getParameterValues("hobby");
+        System.out.println(Arrays.toString(hobbies));
+
+
+        System.out.println("===================================");
+
+        //第三种
+        //获取所有请求的参数名称
+        Enumeration<String> parameterNames = req.getParameterNames();
+        while(parameterNames.hasMoreElements()){
+            //获取参数名称
+           String name =  parameterNames.nextElement();
+           //获取请求参数
+           String value = req.getParameter(name);
+            //弊端：只能获取一个参数
+            System.out.println(name + "==========>" + value);
+        }
+
+        System.out.println("===========================");
+        //第四种
+        //获取所有参数的map参数集合
+        ////参数     值
+        Map<String, String[]> parameterMap = req.getParameterMap();
+        //便利map集合
+        parameterMap.forEach((k,v)->{
+            //                                     Arrays.toString(v)     参看数组v的内容
+            System.out.println(k + "=============>" + Arrays.toString(v));
+        });
+
+        ///map 另一种map方式
+        Set<String> set  = parameterMap.keySet();
+        for (String name : set) {
+            String[] values= req.getParameterValues(name);
+            System.out.println(name);
+            for (String value : values) {
+                System.out.println(value);
+            }
+            System.out.println("-----------------");
+        }
+
+    }
+}
+
+```
+
+
 
 
