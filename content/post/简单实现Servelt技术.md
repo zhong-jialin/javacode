@@ -348,7 +348,29 @@ public class ServletDemo1 extends HttpServlet {
 }
 
 ```
-3. get和post都可以获取请求参数的方式
+3. 简单获取请求参数的方式，只能通过post请求获取
+```
+public class SerletDemo2 extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doGet(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //只能获取post请求的请求参数
+        //缓冲区 获取速度快
+        BufferedReader reader = req.getReader(); //获取字符输入流
+        String line = null;
+        //判断是否为空
+        while ((line = reader.readLine())!=null){
+            System.out.println(line);
+            //打印请求参数
+        }
+    }
+}
+```
+4. get和post都可以获取请求参数的方式
 ```
 package com.tipdm.servlet;
 
