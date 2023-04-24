@@ -738,7 +738,283 @@ public class DoServlet extends HttpServlet {
     }
 }
 ```
+#### Servlet服务中使用jsp
+1. 导入jsp依赖包
+```
+    <dependency>
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.1</version>
+      <scope>provided</scope>
+    </dependency>
+```
+2. 编写jsp文件并用tomcat服务运行jsp文件。
+```
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<h2>Hello jsp!</h2>
+<%--//这里可以直接写Java语句--%>
+<%
+        System.out.println("hellow jsp");
+        int i = 3;
+        %>
+<%=i%>
+<%!
+    String name;
+    void show(){}
+%>
+</body>
+</html>
+```
+![tupain](https://img-blog.csdnimg.cn/10c248a311ee4a91916a8bc09beda723.png "tomcat配置")
+
+####  在jsp获取来自HTML提交的请求或者调用Java类的方法。
+* ELb表达式
+1. EL（全称Expression Language ）表达式语言，用于简化 JSP 页面内的 Java 代码。
+2. EL 表达式的主要作用是 获取数据。其实就是从域对象中获取数据，然后将数据展示在页面上。
+3. 而 EL 表达式的语法也比较简单，${expression} 。例如：${name} 就是获取域中存储的 key 为 name 的数据。
+4. Java Web中的四大域对象：
+    - 1.page：当前页面有效。
+    - 2.request:当前请求有效。
+    - 3.session：当前会话有效。
+    - 4.application:当前应用有效。
+*  EL表达式获取值
+1. el表达式只能从域对象中获取值
+2. 语法： ${域名称.键名}：从指定域中获取指定键的值
+* 域名称：
+1. pageScope --> pageContext
+2. requestScope --> request
+3. sessionScope --> session
+4. applicationScope --> application（ServletContext）
+* 举例：在request域中存储了name=张三
+* 获取：${requestScope.name}
+2. ${键名} 表示依次从最小的域中查找是否有该键对应的值，直到找到为止。
+
+* EL表达式获取值
+获取对象、List集合、Map集合的值
+1. 对象：${域名称.键名.属性名}
+   * 本质上会去调用对象的getter方法
+2. List集合：${域名称.键名[索引]}
+3. Map集合：
+   * ${域名称.键名.key名称}
+   * ${域名称.键名["key名称"]}
+
+* 代码示例
+```
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.tipdom.Bean" %>
+<%@ page import="java.util.*" %><%--
+  Created by IntelliJ IDEA.
+  User: 33993
+  Date: 2023/4/24
+  Time: 11:17
+  To change this template use File | Settings | File Templates.
+
+--%>
+<%--//--%>
+<%--// isELIgnored="false" 解决无法解析“$.{}”内容  有时候 jsp 默认会无视EL 表达式--%>
+<%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<%
 
 
+//    获取对象，list集合，map集合的值
+    List list = new ArrayList();
+//    在list对象添加值
+    Collections.addAll(list,"zs",1,2.0);
+//    吧list集合添加到作用域
+    request.setAttribute("list",list);
 
 
+    Bean zs = new Bean("zs", "1234");
+    request.setAttribute("bean",zs);
+
+    //    存储bean对象  吧b对象添加到beanlist集合里面
+    List<Bean> beanList = new ArrayList<>();
+    beanList.add(zs);
+    request.setAttribute("beanList",beanList);
+
+
+//  在作用域添加信息
+    pageContext.setAttribute("msg","hellow");
+
+    request.setAttribute("name","zhangsan");
+
+//    添加map集合并存入数据
+    Map<String,Integer> map = new HashMap<>();
+    map.put("zs",123);
+
+// 循环
+    List<Bean> usertable = new ArrayList<>();
+    usertable.add(new Bean("foreach","1234"));
+    usertable.add(new Bean("222foreach","1234"));
+    request.setAttribute("user",usertable);
+
+%>
+<%--隐式对象，动态获取虚拟目录--%>
+<%=pageContext.getAttribute("msg")%>
+${name}
+
+<%--//通过Bean的getname方法获得--%>
+${bean.name}
+${bean.password}<br>
+
+${list}<br>
+${list[0]}<br>
+${list[1]}<br>
+${list[2]}<br>
+
+<%--打印存储对象的集合--%>
+${beanList[0].name}
+${beanList[0].password}
+
+<%--打印map--%>
+<%--${map.zs}--%>
+
+<%--用maven跑项目可以用虚拟目录代替目录--%>
+${pageContext.request.contextPath}<br>
+
+<c:forEach items="${user}" var="user" varStatus="s">
+
+    ${s.index} ${s.count} ${user.name} ${user.password}<br>
+
+</c:forEach>
+
+</body>
+</html>
+
+//页面输出
+hellow zhangsan zs 1234
+[zs, 1, 2.0]
+zs
+1
+2.0
+zs 1234 /Servlet_war
+0 1 foreach 1234
+1 2 222foreach 1234
+```
+* 使用java类的对象创建对象，把对象存进数组，放进域里。然后在页面循环结果
+```
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.tipdom.Bean" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="java.util.Collections" %><%--
+  Created by IntelliJ IDEA.
+  User: 33993
+  Date: 2023/4/24
+  Time: 10:00
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page isELIgnored="false" contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+<%
+    String username = request.getParameter("username");
+    int num = 15;
+
+    Bean bean = new Bean("zs", "123456");
+    Bean bean1 = new Bean("zs", "123456");
+    Bean bean2 = new Bean("zs", "123456");
+    List<Bean> list =new ArrayList<>();
+    Collections.addAll(list,bean1,bean2,bean);
+    request.setAttribute("list",list);
+%>
+
+//根据HTML提交的请求判断，并给出结果
+<%--    if (username.equals(bean.getName())){--%>
+<%--    %>--%>
+<%--    <h1>欢迎你</h1>--%>
+
+<%--<%--%>
+<%--    }else {--%>
+<%--        %>--%>
+<%--    <h1>输入错误</h1>--%>
+
+<%--<%--%>
+<%--    }--%>
+<%--%>--%>
+<table border="1">
+    <tr>
+        <td>姓名</td>
+        <td>密码</td>
+    </tr>
+    //属于jstl标签
+    <c:forEach items="${list}" var="list" varStatus="s">
+    <tr>
+        <td>${list.name}</td>
+        <td>${list.password}</td>
+    </tr>
+    </c:forEach>
+</table>
+
+</body>
+</html>
+```
+### JSTL标签
+1. 概念：JavaServer Pages Tag Library JSP标准标签库
+2. 是由Apache组织提供的开源的免费的jsp标签
+3. 作用：用于简化和替换jsp页面上的java代码
+4. 导入JSTL标签
+```
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.taglibs</groupId>
+      <artifactId>taglibs-standard-impl</artifactId>
+      <version>1.2.3</version>
+      <scope>runtime</scope>
+    </dependency>
+```
+* 常见的JSTL标签if
+1. if:相当于java代码的if语句
+1. 属性：
+    * test 必须属性，接受boolean表达式
+    * 如果表达式为true，则显示if标签体内容，如果为false，则不显示标签体内容
+    * 一般情况下，test属性值会结合el表达式一起使用
+2. 注意：
+    * c:if标签没有else情况，想要else情况，则可以在定义一个c:if标签
+
+* 常见的JSTL标签choose
+choose:相当于java代码的switch语句
+1. 使用choose标签声明 相当于switch声明
+2. 使用when标签做判断 相当于case
+3. 使用otherwise标签做其他情况的声明 相当于default
+```
+<%
+  int number = 1;
+  request.setAttribute("number",number);
+%>
+
+<c:choose>
+  <c:when test="${number == 1}">xinqiyi</c:when>
+  <c:when test="${number == 2}">xinqier</c:when>
+  <c:when test="${number == 3}">xinqisan</c:when>
+  <c:otherwise>input error</c:otherwise>
+</c:choose>
+```
+* 常见的JSTL标签foreach 相当于for语句
+1. begin 开始值
+2. end结束值
+3. var临时变量
+4. step 步长
+5. var Status 循环状态对象
+    - index 容器中元素索引
+    - count 循环次数从1开始
+6. items 容器对象
+7. var容器中元素的临时变量
