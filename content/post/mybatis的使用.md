@@ -154,4 +154,61 @@ public class User {
 
 }
 ```
+#### 在sprint boot项目中使用mybatis，lombok进行增删改查
+1. 用之前创建的项目目录。在pojo软件包创建emp文件，使用Lombok工具包
+```
+package com.zhong.pojo;
+import lombok.*;
 
+        import java.time.LocalDate;
+        import java.time.LocalDateTime;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Emp {
+    private Integer id;
+    private String username;
+    private String password;
+    private String name;
+    private Short gender;
+    protected String image;
+    private Short job;
+    private LocalDate entrydate;
+    private Integer deptId;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
+}
+
+```
+2. 创建EmpMapper接口
+```
+package com.zhong.mapper;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface EmpMapper {
+
+    //根据id删除数据
+    //注解
+    @Delete("delete from emp where id = #{id}")
+    public void delete(Integer id);
+}
+```
+3. 在测试类中测试
+```
+@SpringBootTest
+class DemoMybatisApplicationTests {
+
+    //声明接口 自动代理生成接口
+    @Autowired
+    private EmpMapper empMapper;
+    @Test
+
+    public void testDelete(){
+        empMapper.delete(17);
+    }
+
+}
+```
