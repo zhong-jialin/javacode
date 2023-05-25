@@ -127,3 +127,31 @@ categories: [
     User{id=51, username='root', age=12, gender=1, phone='123'}
     User{id=54, username='zhong', age=12, gender=2, phone='123'}
     ```
+#### lompok工具包
+* lombpk是一个实用的java类库，能通过注解的形式自动生成构造器，并可以自动化生成日志变量，简化Java开发。
+1. 在pom文件引入lambok
+```
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+```
+2. 修改数据库的实体类pojo.User
+```
+package com.zhong.pojo;
+
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+    private Integer id;
+    private String username;
+    private Short age;
+    private Short gender;
+    private String phone;
+
+}
+```
+
