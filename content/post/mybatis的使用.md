@@ -215,7 +215,10 @@ class DemoMybatisApplicationTests {
 ```
 * 增加操作
 1. 新增接口方法
+
 ```
+    //插入之后，返回主键id的值
+    @Options(useGeneratedKeys = true,keyProperty = "id")
     @Insert("insert into emp(username, name, gender, image, job, entrydate, dept_id, create_time, update_time)"
             + " values(#{username},#{name},#{gender},#{image},#{job},#{entrydate},#{deptId},#{createTime},#{updateTime})")
     public void insert(Emp emp);
@@ -238,5 +241,6 @@ class DemoMybatisApplicationTests {
 
         //执行动作
         empMapper.insert(emp);
+                System.out.println(emp.getId());
     }
 ```
