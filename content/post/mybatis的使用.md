@@ -92,6 +92,8 @@ categories: [
     spring.datasource.url=jdbc:mysql://localhost:3306/mybatis
     spring.datasource.username=root
     spring.datasource.password=root
+    #配置mybatis日志
+    mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
     ```
     * 编写sql语句的接口
     ```
@@ -267,5 +269,37 @@ EmpMapper
         //执行动作
         empMapper.updadate(emp);
         System.out.println(emp.getId());
+    }
+```
+* 查询操作
+```
+EmpMapper
+
+    //查询员工
+    //不显示日期
+    //方法一
+    @Select("select id, username, password, name, gender, image, job, entrydate, dept_id deptId, create_time createTime, update_time updateTime " +
+            "from emp where id = #{id}")
+    public Emp getById(Integer id);
+
+    第二种
+    @Results( {
+            @Result(column = "dept_id", property = "deptId"),
+            @Result(column = "create_time", property = "createTime"),
+            @Result(column = "update_time", property = "updateTime")
+    })
+
+    @Select("select * from emp where id = #{id}")
+    public Emp getById(Integer id);
+
+    //第三总驼峰自动映射
+    //在数据库配置文件配置mybatis.configuration.map-underscore-to-camel-case=true
+    @Select("select * from emp where id = #{id}")
+    public Emp getById(Integer id);
+
+test
+    public void testselect(){
+        Emp emp = empMapper.getById(18);
+        System.out.println(emp);
     }
 ```
