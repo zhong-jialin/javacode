@@ -244,3 +244,28 @@ class DemoMybatisApplicationTests {
                 System.out.println(emp.getId());
     }
 ```
+* 更新操作
+```
+EmpMapper
+    @Update("update emp set username=#{username},name=#{name},gender=#{gender},image=#{image},job=#{job}" +
+            ",entrydate=#{entrydate},dept_id=#{deptId},update_time=#{updateTime} where id= #{id}")
+    public void updadate(Emp emp);
+
+//test
+        public void updadate(){
+        Emp emp = new Emp();
+        emp.setId(18);
+        emp.setUsername("jerr");
+        emp.setName("jerr");
+        emp.setImage("jerr.jpg");
+        emp.setGender((short)2);
+        emp.setJob((short)2);
+        emp.setEntrydate(LocalDate.of(2000,1,1));
+        emp.setUpdateTime(LocalDateTime.now());
+        emp.setDeptId(1);
+
+        //执行动作
+        empMapper.updadate(emp);
+        System.out.println(emp.getId());
+    }
+```
