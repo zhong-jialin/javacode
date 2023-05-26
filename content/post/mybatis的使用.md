@@ -155,6 +155,7 @@ public class User {
 }
 ```
 #### 在sprint boot项目中使用mybatis，lombok进行增删改查
+* 删除操作
 1. 用之前创建的项目目录。在pojo软件包创建emp文件，使用Lombok工具包
 ```
 package com.zhong.pojo;
@@ -211,4 +212,31 @@ class DemoMybatisApplicationTests {
     }
 
 }
+```
+* 增加操作
+1. 新增接口方法
+```
+    @Insert("insert into emp(username, name, gender, image, job, entrydate, dept_id, create_time, update_time)"
+            + " values(#{username},#{name},#{gender},#{image},#{job},#{entrydate},#{deptId},#{createTime},#{updateTime})")
+    public void insert(Emp emp);
+
+    Emp是pojo的引入实体类Emp
+```
+2. 测试类
+```
+    public void testInsert(){
+        Emp emp = new Emp();
+        emp.setUsername("tom");
+        emp.setName("tom");
+        emp.setImage("tom.jpg");
+        emp.setGender((short)1);
+        emp.setJob((short)1);
+        emp.setEntrydate(LocalDate.of(2000,1,1));
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        emp.setDeptId(1);
+
+        //执行动作
+        empMapper.insert(emp);
+    }
 ```
