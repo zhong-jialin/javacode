@@ -347,3 +347,25 @@ xml文件配置
 </mapper>
 
 ```
+* XML动态SQL
+```
+<mapper namespace="com.zhong.mapper.EmpMapper">
+<!--    id对应EmpMapper的接口名称-->
+<!--    resultType单条记录返回类型-->
+    <select id="list" resultType="com.zhong.pojo.Emp">
+        select * from emp
+        <where>
+        <if test="name != null">
+            name like concat('%',#{name},'%')
+        </if>
+        <if test="gender != null">
+            and gender = #{gender}
+        </if>
+        <if test="begin != null">
+            and entrydate between #{begin} and #{end}
+        </if>
+        </where>
+        order by update_time desc
+    </select>
+</mapper>
+```
