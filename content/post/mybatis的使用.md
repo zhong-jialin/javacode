@@ -303,3 +303,46 @@ test
         System.out.println(emp);
     }
 ```
+* 条件查询
+```
+    //条件查询员工
+    //方法1  '%${name}%' 性能低 不安全 存在sql注入问题
+    //''内想要读取字符要改成${}
+    //使用mysql的拼接语法
+    @Select("select * from emp where name like concat('%',#{name},'%') and gender = #{gender}" +
+            " and entrydate between #{begin} and #{end} order by update_time desc")
+    public List<Emp> list(String name, Short gender, LocalDate begin,LocalDate end);
+
+test
+    //查询条件
+    public void testList(){
+        List<Emp> empList = empMapper.list("张", (short) 1, LocalDate.of(2010, 1, 1), LocalDate.of(2020, 1, 1));
+        System.out.println(empList);
+    }
+
+```
+* XML映射文件   
+所有的SQL语句都必须在XML文件中配置。而从MyBatis 3开始，开始支持接口映射器，其底层利用的是接口绑定技术。另外，接口映射器允许通过注解定义SQL语句，用以替代XML文件配置SQL。
+1. XML映射文件的名称与Mapper接口名称一致，并且XML文件和Mapper接口放置在相同包下
+2. XML映射文件的namespace属性为Mapper接口全限定名一致
+3. XML映射文件中sql语句的id与mapper接口中的方法名一致，并且返回类型一致
+* 吧sql语句放进xml文件执行
+```
+EmpMapper接口配置
+    //使用xml实现
+    public List<Emp> list(String name, Short gender, LocalDate begin,LocalDate end);
+
+xml文件配置
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhong.mapper.EmpMapper">
+<!--    id对应EmpMapper的接口名称-->
+<!--    resultType单条记录返回类型-->
+    <select id="list" resultType="com.zhong.pojo.Emp">
+        select * from emp where name like concat('%',#{name},'%') and gender = #{gender} and
+        entrydate between #{begin} and #{end} order by update_time desc
+    </select>
+</mapper>
+```
