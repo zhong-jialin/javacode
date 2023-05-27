@@ -369,3 +369,71 @@ xml文件配置
     </select>
 </mapper>
 ```
+* XML动态更新员工列表
+```
+Empmapper 接口
+    public void updadate2(Emp emp);
+
+XML映射文件
+    <update id="updadate2">
+        update emp
+<!--        替换set语句 去除多余的逗号-->
+        <set>
+        <if test="username != null">username = #{username},</if>
+        <if test="name != null">name = #{name},</if>
+        <if test="gender != null">gender=#{gender},</if>
+        <if test="image != null">image=#{image},</if>
+        <if test="job != null">job=#{job},</if>
+        <if test="entrydate != null">entrydate=#{entrydate},</if>
+        <if test="deptId != null">dept_id=#{deptId},</if>
+        <if test="updateTime != null">update_time=#{updateTime}</if>
+        </set>
+        where id= #{id}
+
+    </update>
+```
+
+* 批量删除员工
+```
+public void deleteByIds (List<Integer> deletebyids);
+
+<!--批量删除-->
+    <delete id="deleteByIds">
+        delete from emp where id in
+        <foreach collection="deletebyids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+```
+
+* 动态mysql字段
+```
+    <sql id="commonSelect">
+        select id,username,password,name,gender,image,job,entrydate,dept_id,create_time,update_time from emp
+    </sql>
+    <!--    id对应EmpMapper的接口名称-->
+    <!--    resultType单条记录返回类型-->
+    <select id="list" resultType="com.zhong.pojo.Emp">
+        <include refid="commonSelect"/>
+        <where>
+            <if test="name != null">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="begin != null">
+                and entrydate between #{begin} and #{end}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+
+test
+    //查询条件
+    public void testList(){
+        List<Emp> empList = empMapper.list("张", (short) 1, LocalDate.of(2010, 1, 1), LocalDate.of(2020, 1, 1));
+        System.out.println(empList);
+    }
+```
